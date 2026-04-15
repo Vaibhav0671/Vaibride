@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vaibride Car Rental — Pune Hadapsar</title>
+  <meta name="description" content="Vaibride Car Rental — Affordable, reliable car rentals in Pune Hadapsar. Book online instantly."/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --primary:#1d4ed8;--primary-dark:#1e3a8a;--primary-light:#eff6ff;
+      --accent:#f59e0b;--text:#111827;--muted:#6b7280;--border:#e5e7eb;
+      --bg:#f9fafb;--white:#fff;--success:#059669;--danger:#dc2626;--warn:#d97706;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:var(--white);color:var(--text)}
+
+    /* NAV */
+    nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 48px;display:flex;justify-content:space-between;align-items:center;height:66px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+    .logo{font-size:24px;font-weight:800;color:var(--primary);letter-spacing:-0.5px}
+    .logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:28px;list-style:none}
+    .nav-links a{font-size:14px;color:var(--muted);text-decoration:none;font-weight:500;transition:color .2s}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-cta{padding:10px 24px;background:var(--primary);color:#fff;font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+    .nav-cta:hover{background:var(--primary-dark)}
+
+    /* HERO */
+    .hero{background:var(--primary-dark);padding:80px 48px 72px;color:#fff;position:relative;overflow:hidden}
+    .hero::after{content:'';position:absolute;right:-80px;top:-80px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+    .hero-inner{max-width:620px;position:relative;z-index:1}
+    .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);color:#fff;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:22px;font-weight:600}
+    .hero-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+    .hero h1{font-size:50px;font-weight:800;line-height:1.1;margin-bottom:16px}
+    .hero h1 span{color:var(--accent)}
+    .hero p{font-size:17px;opacity:.85;line-height:1.75;margin-bottom:34px;max-width:500px}
+    .hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px}
+    .btn-accent{padding:14px 32px;background:var(--accent);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:9px;cursor:pointer;transition:opacity .2s}
+    .btn-accent:hover{opacity:.9}
+    .btn-ghost{padding:14px 32px;background:transparent;color:#fff;font-size:15px;font-weight:700;border:2px solid rgba(255,255,255,.3);border-radius:9px;cursor:pointer;transition:border-color .2s}
+    .btn-ghost:hover{border-color:#fff}
+    .hero-stats{display:flex;gap:44px;flex-wrap:wrap}
+    .hs{border-left:2px solid rgba(255,255,255,.2);padding-left:20px}
+    .hs-n{font-size:28px;font-weight:800;color:var(--accent)}
+    .hs-l{font-size:13px;opacity:.7;margin-top:2px}
+
+    /* CONTACT STRIP */
+    .contact-strip{background:var(--accent);padding:14px 48px;display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+    .cs-item{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#fff}
+    .cs-item a{color:#fff;text-decoration:none}
+
+    /* SECTIONS */
+    section{padding:72px 48px}
+    .sec-label{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--primary);font-weight:700;margin-bottom:8px}
+    .sec-title{font-size:32px;font-weight:800;color:var(--text);margin-bottom:8px}
+    .sec-sub{font-size:15px;color:var(--muted);margin-bottom:40px}
+
+    /* CARS */
+    #cars{background:var(--bg)}
+    .filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+    .filter-btn{padding:8px 18px;border:1px solid var(--border);border-radius:20px;font-size:13px;font-weight:600;background:var(--white);color:var(--muted);cursor:pointer;transition:all .2s}
+    .filter-btn.active,.filter-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .cars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+    .car-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;transition:box-shadow .2s,transform .2s,border-color .2s;cursor:pointer}
+    .car-card:hover{box-shadow:0 8px 28px rgba(29,78,216,.12);transform:translateY(-3px)}
+    .car-card.selected{border-color:var(--primary);background:var(--primary-light)}
+    .car-img{height:148px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:68px;border-bottom:1px solid var(--border)}
+    .car-card.selected .car-img{background:#dbeafe}
+    .car-body{padding:18px}
+    .car-name{font-size:16px;font-weight:700;margin-bottom:3px}
+    .car-meta{font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .car-badge{padding:2px 8px;border-radius:10px;background:var(--bg);border:1px solid var(--border);font-size:11px;font-weight:600}
+    .car-specs{display:flex;gap:14px;margin-bottom:14px}
+    .cspec{font-size:12px;color:var(--muted)}
+    .cspec strong{display:block;font-size:13px;color:var(--text);font-weight:700;margin-bottom:1px}
+    .car-features{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+    .feat-tag{font-size:11px;padding:2px 8px;background:#f0fdf4;color:#166534;border-radius:10px;font-weight:500}
+    .car-footer{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border)}
+    .car-price{font-size:22px;font-weight:800;color:var(--primary)}
+    .car-price small{font-size:12px;color:var(--muted);font-weight:400}
+    .select-pill{font-size:12px;font-weight:700;color:var(--primary);background:var(--primary-light);padding:5px 12px;border-radius:20px;border:1.5px solid var(--primary);transition:all .2s}
+    .car-card.selected .select-pill{background:var(--primary);color:#fff}
+
+    /* BOOKING */
+    #booking{background:var(--white)}
+    .booking-layout{display:grid;grid-template-columns:1fr 360px;gap:40px;align-items:start}
+    .form-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+    .form-card h3{font-size:20px;font-weight:800;margin-bottom:6px}
+    .form-card p{font-size:13px;color:var(--muted);margin-bottom:24px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:0}
+    .form-group{margin-bottom:16px}
+    .form-group label{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px}
+    .form-group input,.form-group select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-size:14px;color:var(--text);outline:none;font-family:inherit;transition:border-color .2s;background:#fff}
+    .form-group input:focus,.form-group select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(29,78,216,.08)}
+    .form-group select option{background:#fff}
+    .required-note{font-size:12px;color:var(--muted);margin-bottom:20px}
+    .submit-btn{width:100%;padding:15px;background:var(--primary);color:#fff;font-size:16px;font-weight:700;border:none;border-radius:10px;cursor:pointer;transition:background .2s;margin-top:4px}
+    .submit-btn:hover{background:var(--primary-dark)}
+    .submit-btn:disabled{background:var(--muted);cursor:not-allowed}
+
+    /* SUMMARY */
+    .summary-card{background:var(--primary-light);border:1.5px solid #bfdbfe;border-radius:16px;padding:26px;position:sticky;top:80px}
+    .summary-card h4{font-size:16px;font-weight:800;margin-bottom:18px;color:var(--primary)}
+    .sum-row{display:flex;justify-content:space-between;font-size:14px;padding:9px 0;border-bottom:1px solid #dbeafe}
+    .sum-row:last-of-type{border:none;font-weight:800;font-size:17px;color:var(--primary);padding-top:14px}
+    .sum-row span:first-child{color:var(--muted)}
+    .no-sel{text-align:center;padding:28px 0;color:var(--muted);font-size:14px;line-height:1.7}
+    .no-sel-icon{font-size:40px;margin-bottom:8px}
+
+    /* ABOUT */
+    #about{background:var(--bg)}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+    .about-text p{font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:14px}
+    .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
+    .stat-box{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px}
+    .stat-n{font-size:26px;font-weight:800;color:var(--primary)}
+    .stat-l{font-size:12px;color:var(--muted);margin-top:2px}
+    .features-list{display:flex;flex-direction:column;gap:14px}
+    .feat-item{display:flex;align-items:flex-start;gap:14px;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px}
+    .feat-icon{width:44px;height:44px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .feat-title{font-size:14px;font-weight:700;margin-bottom:3px}
+    .feat-sub{font-size:13px;color:var(--muted)}
+
+    /* CONTACT */
+    #contact{background:var(--white);border-top:1px solid var(--border)}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+    .contact-left h3{font-size:22px;font-weight:800;margin-bottom:10px}
+    .contact-left p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:24px}
+    .cinfo-list{display:flex;flex-direction:column;gap:12px}
+    .cinfo{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:11px}
+    .cinfo-icon{width:40px;height:40px;background:var(--primary-light);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .cinfo-lbl{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+    .cinfo-val{font-size:14px;font-weight:700;margin-top:1px}
+    .cinfo-val a{color:var(--primary);text-decoration:none}
+    .cinfo-val a:hover{text-decoration:underline}
+    .map-box{border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+
+    /* FOOTER */
+    footer{background:#111827;padding:28px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .foot-logo{font-size:20px;font-weight:800;color:#fff}
+    .foot-logo span{color:var(--accent)}
+    .foot-links{display:flex;gap:20px;list-style:none}
+    .foot-links a{font-size:13px;color:#9ca3af;text-decoration:none}
+    .foot-links a:hover{color:#fff}
+    .foot-copy{font-size:12px;color:#6b7280;width:100%;text-align:center;border-top:1px solid #1f2937;padding-top:18px;margin-top:8px}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:28px;right:28px;padding:14px 22px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;transform:translateY(16px);transition:all .3s;z-index:999;pointer-events:none;max-width:340px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+    .toast.show{opacity:1;transform:translateY(0)}
+    .toast.success{background:var(--success);color:#fff}
+    .toast.error{background:var(--danger);color:#fff}
+
+    /* MODAL */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;padding:20px}
+    .modal-bg.open{display:flex}
+    .modal{background:#fff;border-radius:18px;padding:40px 36px;max-width:460px;width:100%;text-align:center}
+    .modal-icon{font-size:56px;margin-bottom:14px}
+    .modal h3{font-size:24px;font-weight:800;margin-bottom:8px}
+    .modal-details{background:var(--bg);border-radius:12px;padding:16px;margin:18px 0;text-align:left}
+    .modal-row{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid var(--border)}
+    .modal-row:last-child{border:none;font-weight:700;font-size:16px;color:var(--primary)}
+    .modal-row span:first-child{color:var(--muted)}
+    .modal-note{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+    .modal-close{padding:13px 36px;background:var(--primary);color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer}
+    .modal-close:hover{background:var(--primary-dark)}
+
+    /* WHATSAPP */
+    .wa-btn{position:fixed;bottom:28px;left:28px;background:#25d366;color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,.4);z-index:150;text-decoration:none}
+
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      nav{padding:0 20px}
+      .nav-links{display:none}
+      .hero{padding:56px 20px 52px}
+      .hero h1{font-size:34px}
+      section{padding:52px 20px}
+      .contact-strip{padding:12px 20px;gap:16px}
+      .booking-layout,.about-grid,.contact-grid{grid-template-columns:1fr}
+      .form-row{grid-template-columns:1fr}
+      .summary-card{position:static}
+      footer{padding:24px 20px}
+      .foot-links{display:none}
+    }
+    @media(max-width:560px){
+      .hero-stats{gap:20px}
+      .stats-row{grid-template-columns:1fr 1fr}
+      .hero h1{font-size:28px}
+      .sec-title{font-size:26px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- WHATSAPP -->
+<a class="wa-btn" href="https://wa.me/919850589787?text=Hi%20Vaibride!%20I'd%20like%20to%20book%20a%20car." target="_blank" title="Chat on WhatsApp">💬</a>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Vaib<span>ride</span></div>
+  <ul class="nav-links">
+    <li><a href="#cars">Our Fleet</a></li>
+    <li><a href="#booking">Book Now</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book a Car</button>
+</nav>
+
+<!-- CONTACT STRIP -->
+<div class="contact-strip">
+  <div class="cs-item">📞 <a href="tel:+919850589787">+91 98505 89787</a></div>
+  <div class="cs-item">✉️ <a href="mailto:vaibhavmarewar952@gmail.com">vaibhavmarewar952@gmail.com</a></div>
+  <div class="cs-item">📍 Hadapsar, Pune, Maharashtra</div>
+  <div class="cs-item">🕐 Available 7 Days, 7AM – 10PM</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag"><div class="hero-dot"></div>Pune's Trusted Car Rental</div>
+    <h1>Rent a Car in<br><span>Hadapsar, Pune</span></h1>
+    <p>Affordable, well-maintained cars for city rides, outstation trips, and everything in between. Book online in minutes.</p>
+    <div class="hero-btns">
+      <button class="btn-accent" onclick="document.getElementById('cars').scrollIntoView({behavior:'smooth'})">View Our Fleet</button>
+      <button class="btn-ghost" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book Now</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">8+</div><div class="hs-l">Cars Available</div></div>
+      <div class="hs"><div class="hs-n">500+</div><div class="hs-l">Happy Customers</div></div>
+      <div class="hs"><div class="hs-n">4.9★</div><div class="hs-l">Customer Rating</div></div>
+      <div class="hs"><div class="hs-n">24/7</div><div class="hs-l">Support</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CARS -->
+<section id="cars">
+  <div class="sec-label">Our Fleet</div>
+  <div class="sec-title">Choose Your Car</div>
+  <div class="sec-sub">Click a car to select it, then scroll down to complete your booking</div>
+  <div class="filter-bar" id="filter-bar">
+    <button class="filter-btn active" onclick="filterCars('all', this)">All Cars</button>
+    <button class="filter-btn" onclick="filterCars('Hatchback', this)">Hatchback</button>
+    <button class="filter-btn" onclick="filterCars('Sedan', this)">Sedan</button>
+    <button class="filter-btn" onclick="filterCars('SUV', this)">SUV</button>
+    <button class="filter-btn" onclick="filterCars('MPV', this)">MPV / 7-Seater</button>
+  </div>
+  <div class="cars-grid" id="cars-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--muted)">Loading cars...</div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="sec-label">Booking</div>
+  <div class="sec-title">Reserve Your Car</div>
+  <div class="sec-sub">Fill in your details below — we'll confirm your booking shortly</div>
+  <div class="booking-layout">
+    <div class="form-card">
+      <h3>Your Booking Details</h3>
+      <p>All fields are required. We'll call you to confirm.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="f-name" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="f-phone" placeholder="+91 98765 43210">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="f-email" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label>Select Car</label>
+        <select id="f-car">
+          <option value="">— Choose a car —</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Pickup Location</label>
+        <select id="f-location">
+          <option value="">— Select area —</option>
+          <option>Hadapsar, Pune</option>
+          <option>Magarpatta, Pune</option>
+          <option>Kharadi, Pune</option>
+          <option>Viman Nagar, Pune</option>
+          <option>Koregaon Park, Pune</option>
+          <option>Pune Railway Station</option>
+          <option>Pune Airport</option>
+          <option>Other (mention in call)</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Pickup Date</label>
+          <input type="date" id="f-pickup">
+        </div>
+        <div class="form-group">
+          <label>Return Date</label>
+          <input type="date" id="f-return">
+        </div>
+      </div>
+      <button class="submit-btn" id="submit-btn" onclick="submitBooking()">Confirm My Booking</button>
+    </div>
+
+    <div class="summary-card">
+      <h4>📋 Booking Summary</h4>
+      <div id="summary-content">
+        <div class="no-sel">
+          <div class="no-sel-icon">🚗</div>
+          Select a car and dates above to see your cost summary
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-label">About Vaibride</div>
+  <div class="sec-title">Why Customers Choose Us</div>
+  <div class="sec-sub">Serving Pune with reliable, clean and affordable rental cars</div>
+  <div class="about-grid">
+    <div>
+      <div class="about-text">
+        <p>Vaibride is a trusted car rental service based in Hadapsar, Pune. We offer a well-maintained fleet of cars for daily city use, weekend outstation trips, airport transfers, and corporate travel.</p>
+        <p>Our goal is simple — give every customer a clean car, transparent pricing, and zero stress from booking to return.</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-n">8+</div><div class="stat-l">Cars in fleet</div></div>
+        <div class="stat-box"><div class="stat-n">500+</div><div class="stat-l">Happy customers</div></div>
+        <div class="stat-box"><div class="stat-n">5yr+</div><div class="stat-l">In business</div></div>
+        <div class="stat-box"><div class="stat-n">4.9★</div><div class="stat-l">Average rating</div></div>
+      </div>
+    </div>
+    <div class="features-list">
+      <div class="feat-item">
+        <div class="feat-icon">🛡️</div>
+        <div><div class="feat-title">Fully Insured Vehicles</div><div class="feat-sub">All cars are insured — zero liability for you</div></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">✅</div>
+        <div><div class="feat-title">No Hidden Charges</div><div class="feat-sub">Price you see is exactly what you pay</div></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🔧</div>
+        <div><div class="feat-title">Well-Maintained Fleet</div><div class="feat-sub">Every car is cleaned and serviced before your trip</div></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">📞</div>
+        <div><div class="feat-title">24/7 Support</div><div class="feat-sub">Call or WhatsApp us anytime during your trip</div></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">📍</div>
+        <div><div class="feat-title">Pickup Across Pune</div><div class="feat-sub">We deliver the car to your location in Pune</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-label">Contact Us</div>
+  <div class="sec-title">Get in Touch</div>
+  <div class="sec-sub">We're available 7 days a week — call, WhatsApp or email us</div>
+  <div class="contact-grid">
+    <div class="contact-left">
+      <h3>Vaibride Car Rental</h3>
+      <p>Have a question about a car, price, or availability? Reach out and we'll get back to you quickly — usually within minutes!</p>
+      <div class="cinfo-list">
+        <div class="cinfo">
+          <div class="cinfo-icon">📞</div>
+          <div>
+            <div class="cinfo-lbl">Phone / WhatsApp</div>
+            <div class="cinfo-val"><a href="tel:+919850589787">+91 98505 89787</a></div>
+          </div>
+        </div>
+        <div class="cinfo">
+          <div class="cinfo-icon">✉️</div>
+          <div>
+            <div class="cinfo-lbl">Email</div>
+            <div class="cinfo-val"><a href="mailto:vaibhavmarewar952@gmail.com">vaibhavmarewar952@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="cinfo">
+          <div class="cinfo-icon">📍</div>
+          <div>
+            <div class="cinfo-lbl">Location</div>
+            <div class="cinfo-val">Hadapsar, Pune, Maharashtra — 411028</div>
+          </div>
+        </div>
+        <div class="cinfo">
+          <div class="cinfo-icon">🕐</div>
+          <div>
+            <div class="cinfo-lbl">Working Hours</div>
+            <div class="cinfo-val">Monday – Sunday, 7:00 AM – 10:00 PM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="map-box">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60536.063754488814!2d73.90806!3d18.5089!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c3a9af66d70b%3A0x8d5b7b9ca4d53b96!2sHadapsar%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+        width="100%" height="340" style="border:0;display:block" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Vaib<span>ride</span></div>
+  <ul class="foot-links">
+    <li><a href="#cars">Fleet</a></li>
+    <li><a href="#booking">Book</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="foot-copy">© 2026 Vaibride Car Rental, Hadapsar, Pune. All rights reserved. | vaibhavmarewar952@gmail.com | +91 98505 89787</div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-icon">🎉</div>
+    <h3>Booking Confirmed!</h3>
+    <div class="modal-details" id="modal-details"></div>
+    <p class="modal-note">We'll call you on <strong id="modal-phone"></strong> shortly to confirm your booking. Thank you for choosing Vaibride!</p>
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">Done</button>
+  </div>
+</div>
+
+<script>
+  let cars = [], activeFilter = 'all', selectedCarId = null;
+
+  async function loadCars() {
+    try {
+      const res = await fetch('/api/cars');
+      if (!res.ok) throw new Error();
+      cars = await res.json();
+      renderCars();
+      populateSelect();
+    } catch {
+      document.getElementById('cars-grid').innerHTML =
+        '<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--danger);font-size:15px">⚠️ Could not load cars. Make sure the server is running at localhost:3000</div>';
+    }
+  }
+
+  function renderCars() {
+    const grid = document.getElementById('cars-grid');
+    const filtered = activeFilter === 'all' ? cars : cars.filter(c => c.type === activeFilter);
+    if (!filtered.length) { grid.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)">No cars found for this filter.</div>'; return; }
+    grid.innerHTML = filtered.map(car => `
+      <div class="car-card ${selectedCarId === car._id ? 'selected' : ''}" onclick="selectCar('${car._id}')">
+        <div class="car-img">${car.emoji}</div>
+        <div class="car-body">
+          <div class="car-name">${car.name}</div>
+          <div class="car-meta">
+            <span class="car-badge">${car.type}</span>
+            <span class="car-badge">${car.transmission}</span>
+            <span class="car-badge">${car.fuel}</span>
+          </div>
+          <div class="car-specs">
+            <div class="cspec"><strong>${car.seats}</strong>Seats</div>
+            <div class="cspec"><strong>${car.transmission}</strong>Trans.</div>
+            <div class="cspec"><strong>${car.fuel}</strong>Fuel</div>
+          </div>
+          <div class="car-features">
+            ${(car.features || []).slice(0,3).map(f => `<span class="feat-tag">✓ ${f}</span>`).join('')}
+          </div>
+          <div class="car-footer">
+            <div class="car-price">₹${car.pricePerDay.toLocaleString('en-IN')}<small>/day</small></div>
+            <div class="select-pill">${selectedCarId === car._id ? '✓ Selected' : 'Select'}</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function populateSelect() {
+    const sel = document.getElementById('f-car');
+    sel.innerHTML = '<option value="">— Choose a car —</option>' +
+      cars.map(c => `<option value="${c._id}">${c.emoji} ${c.name} — ₹${c.pricePerDay.toLocaleString('en-IN')}/day</option>`).join('');
+  }
+
+  function filterCars(type, btn) {
+    activeFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCars();
+  }
+
+  function selectCar(id) {
+    selectedCarId = id;
+    document.getElementById('f-car').value = id;
+    renderCars();
+    updateSummary();
+    setTimeout(() => document.getElementById('booking').scrollIntoView({ behavior: 'smooth' }), 100);
+  }
+
+  function updateSummary() {
+    const carId = document.getElementById('f-car').value;
+    const pickup = document.getElementById('f-pickup').value;
+    const ret = document.getElementById('f-return').value;
+    const car = cars.find(c => c._id === carId);
+    const sc = document.getElementById('summary-content');
+
+    if (!car || !pickup || !ret) {
+      sc.innerHTML = '<div class="no-sel"><div class="no-sel-icon">🚗</div>Select a car and dates to see your cost</div>';
+      return;
+    }
+    const p = new Date(pickup), r = new Date(ret);
+    if (r <= p) { sc.innerHTML = '<div class="no-sel"><div class="no-sel-icon">⚠️</div>Return date must be after pickup date</div>'; return; }
+    const days = Math.ceil((r - p) / (1000 * 60 * 60 * 24));
+    const total = days * car.pricePerDay;
+    sc.innerHTML = `
+      <div class="sum-row"><span>Car</span><span>${car.emoji} ${car.name}</span></div>
+      <div class="sum-row"><span>Type</span><span>${car.type} · ${car.transmission}</span></div>
+      <div class="sum-row"><span>Pickup Date</span><span>${fmtDate(pickup)}</span></div>
+      <div class="sum-row"><span>Return Date</span><span>${fmtDate(ret)}</span></div>
+      <div class="sum-row"><span>Duration</span><span>${days} day${days > 1 ? 's' : ''}</span></div>
+      <div class="sum-row"><span>Rate</span><span>₹${car.pricePerDay.toLocaleString('en-IN')}/day</span></div>
+      <div class="sum-row"><span>Total Amount</span><span>₹${total.toLocaleString('en-IN')}</span></div>
+    `;
+  }
+
+  function fmtDate(d) {
+    return new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  async function submitBooking() {
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const carId = document.getElementById('f-car').value;
+    const location = document.getElementById('f-location').value;
+    const pickup = document.getElementById('f-pickup').value;
+    const ret = document.getElementById('f-return').value;
+
+    if (!name) { showToast('Please enter your full name.', 'error'); return; }
+    if (!phone || phone.replace(/\D/g, '').length < 10) { showToast('Please enter a valid phone number.', 'error'); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email.', 'error'); return; }
+    if (!carId) { showToast('Please select a car.', 'error'); return; }
+    if (!location) { showToast('Please select a pickup location.', 'error'); return; }
+    if (!pickup) { showToast('Please select a pickup date.', 'error'); return; }
+    if (!ret) { showToast('Please select a return date.', 'error'); return; }
+    if (new Date(ret) <= new Date(pickup)) { showToast('Return date must be after pickup date.', 'error'); return; }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true; btn.textContent = 'Processing...';
+
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customerName: name, phone, email, carId, pickupLocation: location, pickupDate: pickup, returnDate: ret })
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Booking failed. Please try again.', 'error'); return; }
+
+      const car = cars.find(c => c._id === carId);
+      const days = Math.ceil((new Date(ret) - new Date(pickup)) / (1000 * 60 * 60 * 24));
+      document.getElementById('modal-phone').textContent = phone;
+      document.getElementById('modal-details').innerHTML = `
+        <div class="modal-row"><span>Car</span><span>${car.emoji} ${car.name}</span></div>
+        <div class="modal-row"><span>Pickup</span><span>${fmtDate(pickup)}</span></div>
+        <div class="modal-row"><span>Return</span><span>${fmtDate(ret)}</span></div>
+        <div class="modal-row"><span>Location</span><span>${location}</span></div>
+        <div class="modal-row"><span>Duration</span><span>${days} day${days > 1 ? 's' : ''}</span></div>
+        <div class="modal-row"><span>Total Amount</span><span>₹${data.booking.totalAmount.toLocaleString('en-IN')}</span></div>
+      `;
+      document.getElementById('modal').classList.add('open');
+
+      ['f-name','f-phone','f-email','f-car','f-location','f-pickup','f-return'].forEach(id => document.getElementById(id).value = '');
+      selectedCarId = null;
+      renderCars();
+      updateSummary();
+    } catch {
+      showToast('Server error. Please call us directly at +91 98505 89787.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Confirm My Booking';
+    }
+  }
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 4500);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('f-pickup').min = today;
+    document.getElementById('f-return').min = today;
+    document.getElementById('f-pickup').addEventListener('change', () => {
+      document.getElementById('f-return').min = document.getElementById('f-pickup').value;
+      updateSummary();
+    });
+    document.getElementById('f-return').addEventListener('change', updateSummary);
+    document.getElementById('f-car').addEventListener('change', function() {
+      selectedCarId = this.value;
+      renderCars();
+      updateSummary();
+    });
+    loadCars();
+  });
+</script>
+</body>
+</html>
